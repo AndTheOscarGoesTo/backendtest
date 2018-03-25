@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _db = require('./config/db');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Table = function () {
@@ -22,7 +24,7 @@ var Table = function () {
         key: 'getOne',
         value: function getOne(id) {
             var sql = 'SELECT * FROM ' + this.tableName + ' WHERE id = ' + id + ';';
-            return executeQuery(sql, [id]).then(function (results) {
+            return (0, _db.executeQuery)(sql, [id]).then(function (results) {
                 return results[0];
             });
         }
@@ -30,7 +32,7 @@ var Table = function () {
         key: 'getAll',
         value: function getAll() {
             var sql = 'SELECT * FROM ' + this.tableName;
-            return executeQuery(sql);
+            return (0, _db.executeQuery)(sql);
         }
     }, {
         key: 'find',
@@ -41,16 +43,16 @@ var Table = function () {
                 return columnName + ' LIKE ?';
             });
             var sql = 'SELECT * FROM ' + this.tableName + ' WHERE ' + conditions.join(' AND ') + ';';
-            return executeQuery(sql, values);
+            return (0, _db.executeQuery)(sql, values);
         }
     }, {
         key: 'insert',
         value: function insert(row) {
             var columns = Object.keys(row);
             var values = Object.values(row);
-            var placeholderString = generatePlaceholders(values);
+            var placeholderString = (0, _db.generatePlaceholders)(values);
             var sql = 'INSERT INTO ' + this.tableName + ' (' + columns.join(',') + ') VALUES (' + placeholderString + ');';
-            return executeQuery(sql, values).then(function (results) {
+            return (0, _db.executeQuery)(sql, values).then(function (results) {
                 return { id: results.insertId };
             });
         }
@@ -63,13 +65,13 @@ var Table = function () {
                 return columnName + ' = ?';
             });
             var sql = 'UPDATE ' + this.tableName + ' SET ' + updates.join(',') + ' WHERE id = ' + id + ';';
-            return executeQuery(sql, values);
+            return (0, _db.executeQuery)(sql, values);
         }
     }, {
         key: 'delete',
         value: function _delete(id) {
             var sql = 'DELETE FROM ' + this.tableName + ' WHERE id = ' + id;
-            return executeQuery(sql);
+            return (0, _db.executeQuery)(sql);
         }
     }]);
 

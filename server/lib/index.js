@@ -4,13 +4,9 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _mysql = require('mysql');
+var _routes = require('./paths/routes');
 
-var _mysql2 = _interopRequireDefault(_mysql);
-
-var _authors = require('./procedures/authors');
-
-var _authors2 = _interopRequireDefault(_authors);
+var _routes2 = _interopRequireDefault(_routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,8 +14,7 @@ var app = (0, _express2.default)();
 
 app.use(_express2.default.json());
 app.use(_express2.default.urlencoded({ extended: true }));
-
-app.use('/authors', _authors2.default);
+app.use('/api', _routes2.default);
 
 app.listen(3000, function () {
     console.log('Application listening on port 3000');

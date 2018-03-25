@@ -1,33 +1,32 @@
-import { row, rows, empty } from '../db';
-import Table from '../table';
-
-function authRouter() {
+import { row, rows, empty } from '../config/db';
 
 
-    function getAll(rows) {
-        return callProcedure(spGetAllAuthors)
-        .then((authors) => {
-            res.json(authors[0]);
-        })
-    }
-    
-    function create(firstname, lastname) {
-    
-    }
-    
-    function read(id) {
-    
-    }
-    
-    function update(id) {
-    
-    }
-    
-    function destroy(id) {
-    
-    }
-    
+function all() {
+    return rows('spGetAllAuthors')
+}
+
+function create(firstname, lastname) {
+    return rows('spAddAnAuthor', [firstname, lastname])
+}
+
+function read(id) {
+    return row('spGetAnAuthor', [id])
+}
+
+function update(id, firstname, lastname) {
+    return empty('spUpdateAnAuthor', [id, firstname, lastname])
+}
+
+function destroy(id) {
+    return empty('spDeleteAnAuthor', [id])
 }
 
 
-export default authRouter;
+
+export default {
+    all,
+    create,
+    read,
+    update,
+    destroy
+};
